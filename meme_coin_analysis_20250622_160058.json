@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-06-22T16:00:58.002305",
+  "analysis_results": [
+    {
+      "symbol": "ETH",
+      "address": "factory/osmo1k6c8jln7ejuqwtqmay3yvzrg3kueaczl96pk067ldg8u835w0yhsw27twm/alloyed/allETH",
+      "final_score": 6.0,
+      "component_scores": {
+        "volume": 4.4,
+        "price": 5.6,
+        "holder": 6.67,
+        "safety": 7.33
+      },
+      "key_metrics": {
+        "market_cap": 2376955,
+        "volume_24h": 32109.22,
+        "liquidity": 189517.05,
+        "price_change_24h": -9.07
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/osmosis/2456"
+    },
+    {
+      "symbol": "ETH",
+      "address": "eth.bridge.near",
+      "final_score": 4.3,
+      "component_scores": {
+        "volume": 1.6,
+        "price": 5.6,
+        "holder": 2.67,
+        "safety": 7.33
+      },
+      "key_metrics": {
+        "market_cap": 5406950,
+        "volume_24h": 4199.73,
+        "liquidity": 148632.3,
+        "price_change_24h": -5.17
+      },
+      "next_check_minutes": 120,
+      "risk_flags": [
+        "Low volume activity",
+        "Concentrated ownership"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/near/refv1-6354"
+    }
+  ]
+}

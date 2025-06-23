@@ -1,0 +1,164 @@
+{
+  "timestamp": "2025-06-23T07:41:28.300463",
+  "analysis_results": [
+    {
+      "symbol": "PUMP",
+      "address": "0xB7C0007ab75350c582d5eAb1862b872B5cF53F0C",
+      "final_score": 6.66,
+      "component_scores": {
+        "volume": 7.5,
+        "price": 5.8,
+        "holder": 6.67,
+        "safety": 6.67
+      },
+      "key_metrics": {
+        "market_cap": 10279159,
+        "volume_24h": 10068.94,
+        "liquidity": 1228663.16,
+        "price_change_24h": -1.34
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/bsc/0x90345fbe6da637322015129de38d3166f98aac9c"
+    },
+    {
+      "symbol": "sleepcoin",
+      "address": "FneWQD6Ycu4yn6gGGYK1BawrVu2Pf91B7Q8X5MUkpump",
+      "final_score": 6.61,
+      "component_scores": {
+        "volume": 3.9,
+        "price": 5.2,
+        "holder": 10.0,
+        "safety": 7.33
+      },
+      "key_metrics": {
+        "market_cap": 74908,
+        "volume_24h": 112689.5,
+        "liquidity": 33585.46,
+        "price_change_24h": -32.3
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Low volume activity"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/8sbvxvwmexb1hakbvkwrwevqprrugcprnudmsnb1vfup"
+    },
+    {
+      "symbol": "MTALK",
+      "address": "BHGyMSq4B4JtDjGDvaZ24heWBaunqgBLEMUK8793pump",
+      "final_score": 5.86,
+      "component_scores": {
+        "volume": 4.9,
+        "price": 4.2,
+        "holder": 8.33,
+        "safety": 6.0
+      },
+      "key_metrics": {
+        "market_cap": 345954,
+        "volume_24h": 1000.46,
+        "liquidity": 95637.23,
+        "price_change_24h": 3.44
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/hqqf8wzxthdv6qu9gdiqncmuvqdo1ucqaaz1x24ondj"
+    },
+    {
+      "symbol": "COMV",
+      "address": "0xe34Cab4Ccf271f4F149C4Cc43697C5C5810c835a",
+      "final_score": 5.85,
+      "component_scores": {
+        "volume": 5.2,
+        "price": 6.2,
+        "holder": 6.67,
+        "safety": 5.33
+      },
+      "key_metrics": {
+        "market_cap": 176159,
+        "volume_24h": 1447.51,
+        "liquidity": 25559.1,
+        "price_change_24h": 3.73
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Safety concerns"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/pulsechain/0xd72ef7f9003b4d5da0f7d264408ab78ca47b17f0"
+    },
+    {
+      "symbol": "gork",
+      "address": "38PgzpJYu2HkiYvV8qePFakB8tuobPdGm2FFEn7Dpump",
+      "final_score": 5.83,
+      "component_scores": {
+        "volume": 3.7,
+        "price": 3.6,
+        "holder": 8.67,
+        "safety": 7.33
+      },
+      "key_metrics": {
+        "market_cap": 5581425,
+        "volume_24h": 261207.94,
+        "liquidity": 703303.49,
+        "price_change_24h": 3.03
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Low volume activity",
+        "Poor price momentum"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/37iwfsqgntsafshobtbzqghwsttkwazw3yvzgjwkn6ik"
+    },
+    {
+      "symbol": "VEO3",
+      "address": "B1Uz83yQC3aphKk8EdZ53VFWkQb9o6DKFWG3xRKopump",
+      "final_score": 5.76,
+      "component_scores": {
+        "volume": 5.5,
+        "price": 3.2,
+        "holder": 8.67,
+        "safety": 5.67
+      },
+      "key_metrics": {
+        "market_cap": 90805,
+        "volume_24h": 24499.2,
+        "liquidity": 40002.95,
+        "price_change_24h": -7.55
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Poor price momentum",
+        "Safety concerns"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/7quexe9ixg719u2unc6p9mfnct6nhy6cny7a1tfpyody"
+    },
+    {
+      "symbol": "SUEDE",
+      "address": "2nCeHpECQvnMfzjU5fDMAKws1vBxMzxvWr6qqLpApump",
+      "final_score": 5.63,
+      "component_scores": {
+        "volume": 4.0,
+        "price": 3.2,
+        "holder": 8.0,
+        "safety": 7.33
+      },
+      "key_metrics": {
+        "market_cap": 4362165,
+        "volume_24h": 72476.21,
+        "liquidity": 229720.2,
+        "price_change_24h": -2.67
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Poor price momentum"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/81btnebmhfzdvmhfkhhqkanewggptnbmj1fezsbujtkg"
+    }
+  ]
+}

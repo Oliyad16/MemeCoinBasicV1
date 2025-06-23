@@ -1,0 +1,158 @@
+{
+  "timestamp": "2025-06-22T16:03:39.667575",
+  "analysis_results": [
+    {
+      "symbol": "DOGE",
+      "address": "factory/osmo10pk4crey8fpdyqd62rsau0y02e3rk055w5u005ah6ly7k849k5tsf72x40/alloyed/allDOGE",
+      "final_score": 7.35,
+      "component_scores": {
+        "volume": 6.2,
+        "price": 5.2,
+        "holder": 9.33,
+        "safety": 8.67
+      },
+      "key_metrics": {
+        "market_cap": 480688,
+        "volume_24h": 476282.88,
+        "liquidity": 140191.3,
+        "price_change_24h": -6.99
+      },
+      "next_check_minutes": 30,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/osmosis/2700"
+    },
+    {
+      "symbol": "FROG",
+      "address": "0x0500b77F2Aa3BbcC9144288690aBd29B79338226",
+      "final_score": 6.6,
+      "component_scores": {
+        "volume": 5.4,
+        "price": 8.0,
+        "holder": 7.67,
+        "safety": 5.33
+      },
+      "key_metrics": {
+        "market_cap": 29149,
+        "volume_24h": 25066.3,
+        "liquidity": 4608.76,
+        "price_change_24h": 142
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Safety concerns"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/worldchain/0xfdbe9185ae8eb7064e73114a363aff969b0d4250"
+    },
+    {
+      "symbol": "DOGE",
+      "address": "444F474500000000000000000000000000000000.rp4GXygXPM2ydNLgiDeHrrkfuaAufSZaca",
+      "final_score": 6.42,
+      "component_scores": {
+        "volume": 4.2,
+        "price": 5.8,
+        "holder": 9.33,
+        "safety": 6.33
+      },
+      "key_metrics": {
+        "market_cap": 143210,
+        "volume_24h": 20591.06,
+        "liquidity": 39114.64,
+        "price_change_24h": -6.02
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/xrpl/444f474500000000000000000000000000000000.rp4gxygxpm2ydnlgidehrrkfuaaufszaca_xrp"
+    },
+    {
+      "symbol": "ELON",
+      "address": "BftUiGB2iDkNDa8AKdhtLuJHHXiUfqLvTNmiXaSopump",
+      "final_score": 6.37,
+      "component_scores": {
+        "volume": 5.0,
+        "price": 5.8,
+        "holder": 8.0,
+        "safety": 6.67
+      },
+      "key_metrics": {
+        "market_cap": 835473,
+        "volume_24h": 8361.11,
+        "liquidity": 266922.09,
+        "price_change_24h": -3.08
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/5c4znipkjwge9pfjay3eswdr3kxamg2fx1cjsggybejh"
+    },
+    {
+      "symbol": "Pepe",
+      "address": "B5WTLaRwaUQpKk7ir1wniNB6m5o8GgMrimhKMYan2R6B",
+      "final_score": 6.2,
+      "component_scores": {
+        "volume": 5.0,
+        "price": 5.8,
+        "holder": 7.33,
+        "safety": 6.67
+      },
+      "key_metrics": {
+        "market_cap": 789936,
+        "volume_24h": 14710.17,
+        "liquidity": 278074.31,
+        "price_change_24h": -6.11
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/fcensxyjfrsksz6tasuencsfgwkgkh6yurn1ammyhhzn"
+    },
+    {
+      "symbol": "SHIB",
+      "address": "0xFCa95aeb5bF44aE355806A5ad14659c940dC6BF7",
+      "final_score": 6.13,
+      "component_scores": {
+        "volume": 6.4,
+        "price": 6.8,
+        "holder": 6.0,
+        "safety": 5.33
+      },
+      "key_metrics": {
+        "market_cap": 167894,
+        "volume_24h": 4102.81,
+        "liquidity": 29078.04,
+        "price_change_24h": 5.44
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Safety concerns"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/base/0x06249abc099011fec3a5550a7a6d1f12ba90ad9b9c59cd13b32a83b5c1fad7ee"
+    },
+    {
+      "symbol": "CAT",
+      "address": "7hWcHohzwtLddDUG81H2PkWq6KEkMtSDNkYXsso18Fy3",
+      "final_score": 6.08,
+      "component_scores": {
+        "volume": 3.8,
+        "price": 5.2,
+        "holder": 8.67,
+        "safety": 6.67
+      },
+      "key_metrics": {
+        "market_cap": 763509,
+        "volume_24h": 17253.47,
+        "liquidity": 338496.41,
+        "price_change_24h": -7.32
+      },
+      "next_check_minutes": 60,
+      "risk_flags": [
+        "Low volume activity"
+      ],
+      "status": "ANALYZED",
+      "dex_url": "https://dexscreener.com/solana/gykdfe5xuvawvq5ecwc7cncrkgu3pjgb87pgwah5qmhz"
+    }
+  ]
+}
