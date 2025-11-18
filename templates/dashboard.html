@@ -240,6 +240,41 @@
             background: #1976d2;
         }
 
+        .invest-button {
+            width: 100%;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .invest-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        .invest-button:active {
+            transform: translateY(0);
+        }
+
+        .tracking-badge {
+            display: inline-block;
+            background: #FFD700;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
         .summary {
             background: white;
             border-radius: 15px;
@@ -294,6 +329,34 @@
             outline: none;
             border-color: #4ECDC4;
         }
+
+        .nav-links {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            margin: 0 10px;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.35);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a.active {
+            background: rgba(255,255,255,0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -303,15 +366,20 @@
             <p>Discover high-potential meme coins with AI-powered analysis</p>
         </div>
 
+        <div class="nav-links">
+            <a href="/" class="active">🔍 Scanner</a>
+            <a href="/portfolio">💼 My Portfolio</a>
+        </div>
+
         <div class="control-panel">
             <div class="settings">
                 <div class="setting">
                     <label for="maxCoins">Max Coins to Return</label>
                     <select id="maxCoins">
-                        <option value="5">5 Coins</option>
-                        <option value="7" selected>7 Coins</option>
+                        <option value="7">7 Coins</option>
                         <option value="10">10 Coins</option>
-                        <option value="15">15 Coins</option>
+                        <option value="15" selected>15 Coins</option>
+                        <option value="20">20 Coins</option>
                     </select>
                 </div>
                 <div class="setting">
@@ -352,67 +420,7 @@
 
     <script>
         let isScanning = false;
-
-        // Mock data for demo purposes
-        const mockResults = [
-            {
-                symbol: "PEPEAI",
-                final_score: 8.2,
-                key_metrics: {
-                    market_cap: 450000,
-                    volume_24h: 85000,
-                    liquidity: 65000,
-                    price_change_24h: 24.5
-                },
-                component_scores: {
-                    volume: 8.5,
-                    price: 7.8,
-                    holder: 8.0,
-                    safety: 8.5
-                },
-                risk_flags: [],
-                dex_url: "https://dexscreener.com/example1",
-                address: "0x1234...5678"
-            },
-            {
-                symbol: "MOONCAT",
-                final_score: 7.6,
-                key_metrics: {
-                    market_cap: 125000,
-                    volume_24h: 45000,
-                    liquidity: 35000,
-                    price_change_24h: 156.3
-                },
-                component_scores: {
-                    volume: 7.2,
-                    price: 9.0,
-                    holder: 6.8,
-                    safety: 7.4
-                },
-                risk_flags: ["High volatility"],
-                dex_url: "https://dexscreener.com/example2",
-                address: "0xabcd...efgh"
-            },
-            {
-                symbol: "ROCKETINU",
-                final_score: 7.1,
-                key_metrics: {
-                    market_cap: 75000,
-                    volume_24h: 28000,
-                    liquidity: 22000,
-                    price_change_24h: 67.8
-                },
-                component_scores: {
-                    volume: 6.8,
-                    price: 7.5,
-                    holder: 7.2,
-                    safety: 6.9
-                },
-                risk_flags: ["Low liquidity"],
-                dex_url: "https://dexscreener.com/example3",
-                address: "0x9876...5432"
-            }
-        ];
+        let scanCheckInterval = null;
 
         function updateStatus(type, message) {
             const status = document.getElementById('status');
@@ -503,70 +511,165 @@
                     <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
                         📍 ${coin.address}
                     </div>
+
+                    <button class="invest-button" onclick="investInCoin(${JSON.stringify(coin).replace(/"/g, '&quot;')})">
+                        💰 Invest in This Coin
+                    </button>
                 </div>
             `;
         }
 
         async function scanForCoins() {
             if (isScanning) return;
-            
+
             isScanning = true;
             const button = document.querySelector('.scan-button');
             button.disabled = true;
             button.textContent = '🔄 Scanning...';
-            
+
             const resultsDiv = document.getElementById('results');
             const summaryDiv = document.getElementById('summary');
             resultsDiv.innerHTML = '';
             summaryDiv.style.display = 'none';
 
-            // Simulate scanning process
-            updateStatus('loading', 'Fetching trending tokens from DexScreener...');
-            await sleep(1000);
-            
-            updateStatus('loading', 'Filtering tokens by safety criteria...');
-            await sleep(1500);
-            
-            updateStatus('loading', 'Analyzing volume and price patterns...');
-            await sleep(1000);
-            
-            updateStatus('loading', 'Calculating final scores...');
-            await sleep(1000);
+            try {
+                // Get settings
+                const maxCoins = parseInt(document.getElementById('maxCoins').value);
+                const minScore = parseFloat(document.getElementById('minScore').value);
+                const maxAge = parseInt(document.getElementById('maxAge').value);
 
-            // Get settings
-            const maxCoins = parseInt(document.getElementById('maxCoins').value);
-            const minScore = parseFloat(document.getElementById('minScore').value);
-            
-            // Filter mock results based on settings
-            let filteredResults = mockResults.filter(coin => coin.final_score >= minScore);
-            filteredResults = filteredResults.slice(0, maxCoins);
-
-            if (filteredResults.length > 0) {
-                updateStatus('success', `Found ${filteredResults.length} high-potential meme coins!`);
-                
-                // Display results
-                filteredResults.forEach(coin => {
-                    resultsDiv.innerHTML += createCoinCard(coin);
+                // Start the scan
+                updateStatus('loading', 'Starting scan...');
+                const scanResponse = await fetch('/api/scan', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        max_coins: maxCoins,
+                        min_score: minScore,
+                        max_age_days: maxAge
+                    })
                 });
 
-                // Show summary
-                const avgScore = (filteredResults.reduce((sum, coin) => sum + coin.final_score, 0) / filteredResults.length).toFixed(1);
-                summaryDiv.innerHTML = `
-                    <h3>📊 Scan Summary</h3>
-                    <p>${filteredResults.length} coins analyzed | Average score: ${avgScore}/10</p>
-                    <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                        Last updated: ${new Date().toLocaleString()}
-                    </p>
-                `;
-                summaryDiv.style.display = 'block';
-            } else {
-                updateStatus('error', 'No coins found matching your criteria. Try adjusting the filters.');
+                if (!scanResponse.ok) {
+                    throw new Error('Failed to start scan');
+                }
+
+                // Poll for status updates
+                scanCheckInterval = setInterval(checkScanStatus, 1000);
+
+            } catch (error) {
+                console.error('Scan error:', error);
+                updateStatus('error', 'Failed to start scan: ' + error.message);
+                button.disabled = false;
+                button.textContent = '🔍 Scan for Meme Coins';
+                isScanning = false;
+            }
+        }
+
+        async function checkScanStatus() {
+            try {
+                const statusResponse = await fetch('/api/status');
+                const statusData = await statusResponse.json();
+
+                updateStatus('loading', statusData.message || 'Processing...');
+
+                if (statusData.status === 'complete') {
+                    clearInterval(scanCheckInterval);
+                    await displayResults();
+                } else if (statusData.status === 'error') {
+                    clearInterval(scanCheckInterval);
+                    updateStatus('error', statusData.message || 'Scan failed');
+                    resetButton();
+                }
+            } catch (error) {
+                console.error('Status check error:', error);
+            }
+        }
+
+        async function displayResults() {
+            try {
+                const resultsResponse = await fetch('/api/results');
+                const resultsData = await resultsResponse.json();
+                const results = resultsData.results || [];
+
+                const resultsDiv = document.getElementById('results');
+                const summaryDiv = document.getElementById('summary');
+
+                if (results.length > 0) {
+                    updateStatus('success', `Found ${results.length} high-potential meme coins!`);
+
+                    // Display results
+                    results.forEach(coin => {
+                        resultsDiv.innerHTML += createCoinCard(coin);
+                    });
+
+                    // Show summary
+                    const avgScore = (results.reduce((sum, coin) => sum + coin.final_score, 0) / results.length).toFixed(1);
+                    summaryDiv.innerHTML = `
+                        <h3>📊 Scan Summary</h3>
+                        <p>${results.length} coins analyzed | Average score: ${avgScore}/10</p>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            Last updated: ${new Date().toLocaleString()}
+                        </p>
+                    `;
+                    summaryDiv.style.display = 'block';
+                } else {
+                    updateStatus('error', 'No coins found matching your criteria. Try adjusting the filters.');
+                }
+            } catch (error) {
+                console.error('Results error:', error);
+                updateStatus('error', 'Failed to load results');
             }
 
-            // Reset button
+            resetButton();
+        }
+
+        function resetButton() {
+            const button = document.querySelector('.scan-button');
             button.disabled = false;
             button.textContent = '🔍 Scan for Meme Coins';
             isScanning = false;
+        }
+
+        async function investInCoin(coin) {
+            try {
+                // Ask user for investment amount (optional)
+                const investAmount = prompt(`How much are you investing in ${coin.symbol}? (Optional, enter 0 to skip)`);
+
+                if (investAmount === null) {
+                    return; // User cancelled
+                }
+
+                const amount = parseFloat(investAmount) || 0;
+
+                // Add investment amount to coin data
+                const coinData = {
+                    ...coin,
+                    investment_amount: amount
+                };
+
+                // Send to backend
+                const response = await fetch('/api/portfolio/add', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(coinData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`✅ ${coin.symbol} is now being tracked!\n\n📊 CLICK "💼 My Portfolio" button at the top to see it\n\n🔔 NOTIFICATIONS:\n• Console: Alerts will print here every 30 seconds\n• Telegram: Set up TELEGRAM_BOT_TOKEN to get mobile alerts\n• Web: Check Portfolio page for real-time updates\n\n⚠️ EXIT SIGNALS:\n• SELL NOW: Price drops >15% or rug pull detected\n• TAKE PROFIT: 2x, 5x, or 10x gains reached\n• WARNING: Moderate losses or momentum issues`);
+
+                    // Reload page to show tracking badge
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    alert(`⚠️ ${result.message}`);
+                }
+
+            } catch (error) {
+                console.error('Error adding investment:', error);
+                alert('Error adding investment. Please try again.');
+            }
         }
 
         function sleep(ms) {

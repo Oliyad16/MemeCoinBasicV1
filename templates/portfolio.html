@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💼 My Portfolio - Meme Coin Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .summary-card h3 {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4ECDC4;
+        }
+
+        .investments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .investment-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .investment-card.danger {
+            border-left: 5px solid #f44336;
+        }
+
+        .investment-card.profit {
+            border-left: 5px solid #4caf50;
+        }
+
+        .investment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .symbol {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .profit-loss {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .profit-loss.positive {
+            background: #4caf50;
+            color: white;
+        }
+
+        .profit-loss.negative {
+            background: #f44336;
+            color: white;
+        }
+
+        .metrics {
+            margin: 15px 0;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .alerts {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff3cd;
+            border-radius: 8px;
+        }
+
+        .alert-item {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .remove-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover {
+            background: #d32f2f;
+        }
+
+        .empty-state {
+            text-align: center;
+            background: white;
+            padding: 60px 20px;
+            border-radius: 20px;
+        }
+
+        .empty-state h2 {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💼 My Portfolio</h1>
+            <p>Track your investments and get exit alerts</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">🔍 Scanner</a>
+            <a href="/portfolio">💼 Portfolio</a>
+        </div>
+
+        <div class="summary-cards" id="summary"></div>
+        <div class="investments-grid" id="investments"></div>
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <h2>No investments tracked yet</h2>
+            <p style="color: #999; margin-bottom: 30px;">Start by scanning for coins and clicking "Invest in This Coin"</p>
+            <a href="/">🚀 Scan for Coins</a>
+        </div>
+    </div>
+
+    <script>
+        async function loadPortfolio() {
+            try {
+                const response = await fetch('/api/portfolio/list');
+                const data = await response.json();
+
+                const investments = data.investments || [];
+                const summary = data.summary || {};
+
+                // Show summary
+                displaySummary(summary);
+
+                // Show investments
+                if (investments.length === 0) {
+                    document.getElementById('empty-state').style.display = 'block';
+                } else {
+                    displayInvestments(investments);
+                }
+
+            } catch (error) {
+                console.error('Error loading portfolio:', error);
+            }
+        }
+
+        function displaySummary(summary) {
+            const summaryDiv = document.getElementById('summary');
+            summaryDiv.innerHTML = `
+                <div class="summary-card">
+                    <h3>Total Investments</h3>
+                    <div class="value">${summary.total_investments || 0}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>In Profit</h3>
+                    <div class="value" style="color: #4caf50;">${summary.in_profit || 0}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>At Risk</h3>
+                    <div class="value" style="color: #f44336;">${summary.in_danger || 0}</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Active Alerts</h3>
+                    <div class="value" style="color: #ff9800;">${summary.total_alerts || 0}</div>
+                </div>
+            `;
+        }
+
+        function displayInvestments(investments) {
+            const investmentsDiv = document.getElementById('investments');
+            investmentsDiv.innerHTML = investments.map(inv => createInvestmentCard(inv)).join('');
+        }
+
+        function createInvestmentCard(inv) {
+            const profitLoss = inv.profit_loss_pct || 0;
+            const profitClass = profitLoss >= 0 ? 'positive' : 'negative';
+            const cardClass = inv.status === 'danger' ? 'danger' : inv.status === 'profit' ? 'profit' : '';
+
+            const timeHeld = inv.time_held_minutes || 0;
+            const hours = Math.floor(timeHeld / 60);
+            const mins = Math.floor(timeHeld % 60);
+            const timeStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+
+            return `
+                <div class="investment-card ${cardClass}">
+                    <div class="investment-header">
+                        <div class="symbol">${inv.symbol}</div>
+                        <div class="profit-loss ${profitClass}">${profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(1)}%</div>
+                    </div>
+
+                    <div class="metrics">
+                        <div class="metric-row">
+                            <span>⏱️ Time Held:</span>
+                            <strong>${timeStr}</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>💰 Entry Price:</span>
+                            <strong>${inv.entry_market_cap ? `$${(inv.entry_market_cap/1000).toFixed(1)}K` : 'N/A'}</strong>
+                        </div>
+                        <div class="metric-row">
+                            <span>📊 Current Status:</span>
+                            <strong style="color: ${inv.status === 'danger' ? '#f44336' : inv.status === 'profit' ? '#4caf50' : '#2196f3'}">
+                                ${inv.status.toUpperCase()}
+                            </strong>
+                        </div>
+                    </div>
+
+                    ${inv.exit_signals && inv.exit_signals.length > 0 ? `
+                        <div class="alerts">
+                            <strong>🚨 Exit Signals:</strong>
+                            ${inv.exit_signals.map(sig => `<div class="alert-item">${sig}</div>`).join('')}
+                        </div>
+                    ` : ''}
+
+                    <button class="remove-btn" onclick="removeInvestment('${inv.id}', '${inv.symbol}')">
+                        🗑️ Stop Tracking
+                    </button>
+                </div>
+            `;
+        }
+
+        async function removeInvestment(id, symbol) {
+            if (!confirm(`Stop tracking ${symbol}?`)) return;
+
+            try {
+                const response = await fetch(`/api/portfolio/remove/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    alert(`✅ Stopped tracking ${symbol}`);
+                    loadPortfolio();
+                } else {
+                    alert('Error removing investment');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error removing investment');
+            }
+        }
+
+        // Load portfolio on page load
+        loadPortfolio();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadPortfolio, 30000);
+    </script>
+</body>
+</html>

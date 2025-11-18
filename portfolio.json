@@ -1,0 +1,262 @@
+{
+  "investments": [
+    {
+      "id": "1762671536643",
+      "symbol": "DBTC",
+      "address": "GHQKhAtnMdtCA5Gh3drhahenLH1VDqnQYqzmzRzmpump",
+      "dex_url": "https://dexscreener.com/solana/e7anmh8phkzvmbqkystk3ifubvagvrw8exrbqqu579im",
+      "entry_time": "2025-11-09T01:58:56.644031",
+      "entry_price": 96.84,
+      "entry_market_cap": 122469,
+      "entry_volume": 254485.3,
+      "entry_liquidity": 38211.21,
+      "entry_score": 9.35,
+      "entry_component_scores": {
+        "holder": 10,
+        "price": 7.8,
+        "safety": 8,
+        "volume": 5.6
+      },
+      "investment_amount": 10,
+      "status": "danger",
+      "current_price": -36.9,
+      "current_market_cap": 39259,
+      "current_volume": 334720.22,
+      "current_liquidity": 21943.54,
+      "current_score": 5.85,
+      "price_change_pct": 0,
+      "profit_loss_pct": 0,
+      "time_held_minutes": 686.1,
+      "peak_profit_pct": 0,
+      "exit_signals": [],
+      "last_alert_time": "2025-11-09T13:25:05.323674"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "1762672053509",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T02:07:33.509266",
+      "acknowledged": false
+    },
+    {
+      "id": "1762672353651",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T02:12:33.651499",
+      "acknowledged": false
+    },
+    {
+      "id": "1762672653746",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T02:17:33.746780",
+      "acknowledged": false
+    },
+    {
+      "id": "1762679731852",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T04:15:31.852977",
+      "acknowledged": false
+    },
+    {
+      "id": "1762684301590",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T05:31:41.590830",
+      "acknowledged": false
+    },
+    {
+      "id": "1762687068822",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T06:17:48.822377",
+      "acknowledged": false
+    },
+    {
+      "id": "1762687998890",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T06:33:18.890339",
+      "acknowledged": false
+    },
+    {
+      "id": "1762690712450",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T07:18:32.450444",
+      "acknowledged": false
+    },
+    {
+      "id": "1762693049462",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T07:57:29.462620",
+      "acknowledged": false
+    },
+    {
+      "id": "1762695291816",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T08:34:51.816634",
+      "acknowledged": false
+    },
+    {
+      "id": "1762699032493",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T09:37:12.493223",
+      "acknowledged": false
+    },
+    {
+      "id": "1762701693750",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T10:21:33.750242",
+      "acknowledged": false
+    },
+    {
+      "id": "1762703783994",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T10:56:23.994351",
+      "acknowledged": false
+    },
+    {
+      "id": "1762705183937",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T11:19:43.937956",
+      "acknowledged": false
+    },
+    {
+      "id": "1762706275137",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T11:37:55.137446",
+      "acknowledged": false
+    },
+    {
+      "id": "1762708221623",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T12:10:21.623637",
+      "acknowledged": false
+    },
+    {
+      "id": "1762710273808",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T12:44:33.808690",
+      "acknowledged": false
+    },
+    {
+      "id": "1762710573980",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T12:49:33.980278",
+      "acknowledged": false
+    },
+    {
+      "id": "1762710904155",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T12:55:04.155636",
+      "acknowledged": false
+    },
+    {
+      "id": "1762711204330",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T13:00:04.330061",
+      "acknowledged": false
+    },
+    {
+      "id": "1762711504570",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T13:05:04.570173",
+      "acknowledged": false
+    },
+    {
+      "id": "1762711804747",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T13:10:04.747602",
+      "acknowledged": false
+    },
+    {
+      "id": "1762712104928",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T13:15:04.928817",
+      "acknowledged": false
+    },
+    {
+      "id": "1762712405103",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T13:20:05.103797",
+      "acknowledged": false
+    },
+    {
+      "id": "1762712705322",
+      "investment_id": "1762671536643",
+      "alert_type": "SELL_NOW",
+      "message": "\ud83d\udd34 SELL_NOW",
+      "urgency": "critical",
+      "timestamp": "2025-11-09T13:25:05.322852",
+      "acknowledged": false
+    }
+  ]
+}

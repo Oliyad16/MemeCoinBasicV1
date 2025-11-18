@@ -20,73 +20,157 @@ class MemeCoinBot:
         self.dexscreener_base_url = "https://api.dexscreener.com/latest"
         self.monitored_coins = {}  # Track coins with cooling periods
         
-    def fetch_trending_tokens(self, limit: int = 50) -> List[Dict]:
-        """Fetch fresh trending tokens from DexScreener - focus on NEW coins"""
+    def fetch_trending_tokens(self, limit: int = 500) -> List[Dict]:
+        """Fetch MANY tokens from DexScreener - EXPANDED to 500+ for better coverage"""
         all_tokens = []
-        
-        # 1. Primary source - trending tokens (these are usually good)
+
+        # 1. HIGHEST PRIORITY - Latest pairs (catches coins within minutes of launch!)
+        try:
+            latest_url = f"{self.dexscreener_base_url}/dex/pairs/latest"
+            logger.info(f"Fetching latest pairs (new launches)...")
+            response = requests.get(latest_url, timeout=15)
+
+            if response.status_code == 200:
+                data = response.json()
+                if isinstance(data, dict) and 'pairs' in data:
+                    latest_pairs = data['pairs']
+                    logger.info(f"Found {len(latest_pairs)} latest pairs")
+                    all_tokens.extend(latest_pairs[:100])  # Increased from 50 to 100
+
+        except Exception as e:
+            logger.warning(f"Latest pairs endpoint failed: {e}")
+
+        # 2. EXPANDED Solana-specific searches (most meme coins launch here)
+        solana_queries = [
+            "solana meme",
+            "sol meme",
+            "pump.fun",
+            "raydium",
+            "solana new",
+            "sol pump",
+            "bonk",
+            "wif",
+            "jto",
+            "pyth",
+        ]
+
+        for query in solana_queries:
+            try:
+                url = f"{self.dexscreener_base_url}/dex/search?q={query}"
+                response = requests.get(url, timeout=10)
+
+                if response.status_code == 200:
+                    data = response.json()
+                    if isinstance(data, dict) and 'pairs' in data:
+                        pairs = data['pairs'][:30]  # Increased from 20 to 30
+                        all_tokens.extend(pairs)
+                        logger.info(f"Found {len(pairs)} tokens for Solana query '{query}'")
+
+            except Exception as e:
+                logger.warning(f"Solana search failed for '{query}': {e}")
+                continue
+
+            time.sleep(0.05)  # Faster polling
+
+        # 3. Base chain searches (emerging meme hub!)
+        base_queries = [
+            "base meme",
+            "base new",
+            "base chain",
+        ]
+
+        for query in base_queries:
+            try:
+                url = f"{self.dexscreener_base_url}/dex/search?q={query}"
+                response = requests.get(url, timeout=10)
+
+                if response.status_code == 200:
+                    data = response.json()
+                    if isinstance(data, dict) and 'pairs' in data:
+                        pairs = data['pairs'][:30]
+                        all_tokens.extend(pairs)
+                        logger.info(f"Found {len(pairs)} tokens for Base query '{query}'")
+
+            except Exception as e:
+                logger.warning(f"Base search failed for '{query}': {e}")
+                continue
+
+            time.sleep(0.05)
+
+        # 4. Trending tokens (established movers)
         try:
             trending_url = f"{self.dexscreener_base_url}/dex/tokens/trending"
             logger.info(f"Fetching trending tokens...")
             response = requests.get(trending_url, timeout=15)
-            
+
             if response.status_code == 200:
                 data = response.json()
                 if isinstance(data, dict) and 'pairs' in data:
                     trending_tokens = data['pairs']
                     logger.info(f"Found {len(trending_tokens)} trending tokens")
-                    all_tokens.extend(trending_tokens[:30])
-                    
+                    all_tokens.extend(trending_tokens[:50])  # Increased from 30 to 50
+
         except Exception as e:
             logger.warning(f"Trending endpoint failed: {e}")
-        
-        # 2. Search for recent high-volume tokens
+
+        # 5. EXPANDED search queries - more variety
         search_queries = [
-            "volume",  # Tokens with high volume
-            "new",     # New tokens
-            "24h",     # Recent activity
-            "pump",    # Pumping tokens
+            "meme new",
+            "launched today",
+            "trending now",
+            "moonshot",
+            "pump",
+            "100x",
+            "gem",
+            "new token",
+            "presale",
+            "fair launch",
+            "stealth launch",
+            "degen",
         ]
         
         for query in search_queries:
             try:
                 url = f"{self.dexscreener_base_url}/dex/search?q={query}"
                 response = requests.get(url, timeout=10)
-                
+
                 if response.status_code == 200:
                     data = response.json()
                     if isinstance(data, dict) and 'pairs' in data:
-                        pairs = data['pairs'][:15]  # Top 15 from each search
+                        pairs = data['pairs'][:25]  # Increased from 15 to 25
                         all_tokens.extend(pairs)
                         logger.info(f"Found {len(pairs)} tokens for query '{query}'")
-                        
+
             except Exception as e:
                 logger.warning(f"Search failed for '{query}': {e}")
                 continue
-            
-            time.sleep(0.1)
+
+            time.sleep(0.05)  # Faster polling
         
-        # 3. Get tokens from popular DEXes
+        # 6. Get tokens from popular DEXes - EXPANDED
         dex_endpoints = [
             f"{self.dexscreener_base_url}/dex/pairs/uniswap-v3",
-            f"{self.dexscreener_base_url}/dex/pairs/raydium", 
-            f"{self.dexscreener_base_url}/dex/pairs/pancakeswap-v3"
+            f"{self.dexscreener_base_url}/dex/pairs/uniswap-v2",
+            f"{self.dexscreener_base_url}/dex/pairs/raydium",
+            f"{self.dexscreener_base_url}/dex/pairs/pancakeswap-v3",
+            f"{self.dexscreener_base_url}/dex/pairs/pancakeswap-v2",
+            f"{self.dexscreener_base_url}/dex/pairs/sushiswap",
         ]
-        
+
         for endpoint in dex_endpoints:
             try:
                 response = requests.get(endpoint, timeout=10)
                 if response.status_code == 200:
                     data = response.json()
                     if isinstance(data, dict) and 'pairs' in data:
-                        pairs = data['pairs'][:10]
+                        pairs = data['pairs'][:20]  # Increased from 10 to 20
                         all_tokens.extend(pairs)
                         logger.info(f"Found {len(pairs)} tokens from {endpoint.split('/')[-1]}")
             except Exception as e:
                 logger.warning(f"DEX endpoint failed: {e}")
                 continue
-            
-            time.sleep(0.1)
+
+            time.sleep(0.05)
         
         # 4. Remove duplicates and do basic filtering
         seen_addresses = set()
@@ -188,32 +272,48 @@ class MemeCoinBot:
             if symbol in major_cryptos:
                 return False, f"Skipping major cryptocurrency: {symbol}"
             
-            # More relaxed age filter - accept tokens up to 1 year old
-            if token_age_hours < 0.5:  # Less than 30 minutes
+            # ULTRA-EARLY detection - catch coins in first few hours!
+            if token_age_hours < 0.25:  # Less than 15 minutes (too risky)
                 return False, f"Token too new: {token_age_hours:.1f}h (potential honeypot)"
-            
-            if token_age_days > 365:  # More than 1 year
-                return False, f"Token too old: {token_age_days:.1f} days"
-            
-            # More realistic market cap filter
+
+            if token_age_hours > 72:  # More than 3 DAYS - already past pump window
+                return False, f"Token too old: {token_age_hours:.1f}h (missed opportunity)"
+
+            # BONUS: Prioritize 1-24 hour old tokens (sweet spot for catching pre-pump)
+            in_sweet_spot = 1 <= token_age_hours <= 24
+
+            # Stricter market cap filter for quality
             if market_cap > 0:
-                if market_cap < 50:  # Less than $50
+                if market_cap < 1000:  # Less than $1K
                     return False, f"Market cap too small: ${market_cap:,.0f}"
-                if market_cap > 1_000_000_000:  # More than $1B
+                if market_cap > 100_000_000:  # More than $100M (too established)
                     return False, f"Market cap too large: ${market_cap:,.0f}"
-            
-            # Minimal volume requirement
-            if volume_24h < 50:
+
+            # Higher volume requirement for active coins
+            if volume_24h < 1000:  # Increased from $50 to $1000
                 return False, f"Volume too low: ${volume_24h:,.0f}"
-            
-            # Minimal liquidity requirement 
-            if liquidity < 500:
+
+            # Higher liquidity requirement to avoid rug pulls
+            if liquidity < 5000:  # Increased from $500 to $5000
                 return False, f"Liquidity too low: ${liquidity:,.0f}"
             
             # Basic wash trading check (more lenient)
             if liquidity > 0 and volume_24h / liquidity > 500:
                 return False, f"Extreme volume/liquidity ratio: {volume_24h/liquidity:.1f}"
-            
+
+            # CRITICAL: Reject coins that already pumped and are now dumping
+            price_changes = coin_data.get('priceChange', {})
+            price_1h = float(price_changes.get('h1', 0))
+            price_24h = float(price_changes.get('h24', 0))
+
+            # If huge 24h gain but negative recent movement = already dumping
+            if price_24h > 200 and price_1h < -5:
+                return False, f"Already pumped (+{price_24h:.0f}%) and dumping ({price_1h:.1f}% 1h)"
+
+            # If massive dump happening right now
+            if price_1h < -20:
+                return False, f"Heavy dumping: {price_1h:.1f}% in 1h"
+
             # Check for meme-like characteristics (more inclusive)
             meme_keywords = ['dog', 'cat', 'pepe', 'frog', 'moon', 'rocket', 'inu', 'shib', 'meme', 'ai', 'bot', 'coin', 'token', 'doge', 'elon', 'trump']
             
@@ -232,30 +332,53 @@ class MemeCoinBot:
                 if volume_24h < 1000 or market_cap < 10000:
                     return False, f"Not clearly a meme token and low metrics: {symbol}"
             
-            return True, f"Passed filter (Age: {token_age_days:.1f}d, MC: ${market_cap:,.0f}, Vol: ${volume_24h:,.0f})"
+            # Return pass status with sweet spot indicator
+            age_info = f"{token_age_hours:.1f}h" if token_age_hours < 48 else f"{token_age_days:.1f}d"
+            sweet_spot_tag = " [EARLY!]" if in_sweet_spot else ""
+            return True, f"Passed filter (Age: {age_info}{sweet_spot_tag}, MC: ${market_cap:,.0f}, Vol: ${volume_24h:,.0f})"
             
         except Exception as e:
             return False, f"Error in safety filter: {e}"
 
     def calculate_volume_score(self, coin_data: Dict) -> float:
-        """Stage 2A: Calculate volume scoring (0-10) - prioritize GROWTH"""
+        """Stage 2A: Calculate volume scoring (0-10) - prioritize GROWTH and MOMENTUM"""
         try:
             volume_24h = float(coin_data.get('volume', {}).get('h24', 0))
             volume_6h = float(coin_data.get('volume', {}).get('h6', volume_24h * 0.25))
             volume_1h = float(coin_data.get('volume', {}).get('h1', volume_24h / 24))
             liquidity = float(coin_data.get('liquidity', {}).get('usd', 1))
-            
+
             # Get transaction data for growth analysis
             transactions = coin_data.get('txns', {})
             h24_txns = transactions.get('h24', {})
             h6_txns = transactions.get('h6', {})
-            
+            h1_txns = transactions.get('h1', {})
+
             buys_24h = h24_txns.get('buys', 0)
             sells_24h = h24_txns.get('sells', 0)
             buys_6h = h6_txns.get('buys', 0)
             sells_6h = h6_txns.get('sells', 0)
-            
-            # 1. Volume Growth Score (0-10) - Key for finding explosive tokens
+            buys_1h = h1_txns.get('buys', 0) if h1_txns else 0
+            sells_1h = h1_txns.get('sells', 0) if h1_txns else 0
+
+            # 1. Volume ACCELERATION Score (0-10) - CRITICAL for catching moonshots
+            # Compare 1h vs 6h vs 24h to detect acceleration
+            expected_1h_from_24h = volume_24h / 24
+            expected_1h_from_6h = volume_6h / 6
+
+            # If 1h volume is accelerating beyond recent averages = BREAKOUT
+            if volume_1h > 0 and expected_1h_from_6h > 0:
+                acceleration_ratio = volume_1h / expected_1h_from_6h
+                if acceleration_ratio > 5: acceleration_score = 10  # MASSIVE acceleration
+                elif acceleration_ratio > 3: acceleration_score = 9   # Strong acceleration
+                elif acceleration_ratio > 2: acceleration_score = 8   # Good acceleration
+                elif acceleration_ratio > 1.5: acceleration_score = 6 # Moderate growth
+                elif acceleration_ratio > 1: acceleration_score = 4   # Steady
+                else: acceleration_score = 2  # Declining
+            else:
+                acceleration_score = 3  # No data
+
+            # 2. Volume Growth Score (0-10) - Sustained growth over 6h
             recent_volume_ratio = (volume_6h * 4) / volume_24h if volume_24h > 0 else 0
             if recent_volume_ratio > 3: growth_score = 10  # Volume accelerating rapidly
             elif recent_volume_ratio > 2: growth_score = 9   # Strong acceleration
@@ -302,13 +425,13 @@ class MemeCoinBot:
             elif vol_liq_ratio >= 0.5: quality_score = 6 # Moderate activity
             else: quality_score = 3  # Low activity
             
-            # Weight the scores - prioritize growth and buying pressure for meme coins
+            # Weight the scores - PRIORITIZE ACCELERATION for early meme detection
             weighted_score = (
-                growth_score * 0.3 +      # 30% - Volume growth is critical
-                buy_score * 0.25 +        # 25% - Buy pressure is key
-                activity_score * 0.2 +    # 20% - Current activity
-                txn_growth_score * 0.15 + # 15% - Transaction growth
-                quality_score * 0.1       # 10% - Quality check
+                acceleration_score * 0.35 + # 35% - Acceleration catches breakouts early!
+                buy_score * 0.25 +          # 25% - Buy pressure is key
+                growth_score * 0.2 +        # 20% - Sustained volume growth
+                activity_score * 0.1 +      # 10% - Current activity
+                quality_score * 0.1         # 10% - Quality check
             )
             
             return min(10, max(0, weighted_score))
@@ -318,36 +441,39 @@ class MemeCoinBot:
             return 0
 
     def calculate_price_score(self, coin_data: Dict) -> float:
-        """Stage 2B: Calculate price movement scoring (0-10)"""
+        """Stage 2B: Calculate price movement scoring - PRIORITIZE EARLY GROWTH, PENALIZE DUMPS"""
         try:
             price_changes = coin_data.get('priceChange', {})
             price_1h = float(price_changes.get('h1', 0))
             price_6h = float(price_changes.get('h6', 0))
             price_24h = float(price_changes.get('h24', 0))
-            
-            # Price 1h component (0-10)
-            if price_1h < -20: score_1h = 0
-            elif price_1h < -10: score_1h = 2
-            elif price_1h < 0: score_1h = 4
-            elif price_1h < 5: score_1h = 6
-            elif price_1h < 15: score_1h = 8
-            else: score_1h = 10
-            
-            # Price 6h component (0-10)
+
+            # MOST IMPORTANT: Recent momentum (1h) - must be positive!
+            if price_1h < -15: score_1h = 0   # Heavy dump = 0
+            elif price_1h < -5: score_1h = 1   # Dumping = very bad
+            elif price_1h < 0: score_1h = 3    # Slight decline
+            elif price_1h < 3: score_1h = 5    # Sideways
+            elif price_1h < 10: score_1h = 7   # Good growth
+            elif price_1h < 20: score_1h = 9   # Strong growth
+            else: score_1h = 10                # Explosive growth
+
+            # 6h movement - looking for building momentum
             if price_6h < -10: score_6h = 0
             elif price_6h < 0: score_6h = 2
-            elif price_6h < 5: score_6h = 3
+            elif price_6h < 5: score_6h = 4
             elif price_6h < 15: score_6h = 6
             elif price_6h < 30: score_6h = 8
-            else: score_6h = 10
-            
-            # Price 24h component (0-10)
-            if price_24h < 0: score_24h = 0
-            elif price_24h < 10: score_24h = 2
-            elif price_24h < 20: score_24h = 4
-            elif price_24h < 50: score_24h = 7
-            elif price_24h < 100: score_24h = 9
-            else: score_24h = 10
+            elif price_6h < 100: score_6h = 10
+            else: score_6h = 7  # Too much pump already
+
+            # 24h - prefer MODERATE gains (20-100%), not massive (avoid post-dump)
+            if price_24h < -10: score_24h = 0   # Dumping
+            elif price_24h < 0: score_24h = 1   # Declining
+            elif price_24h < 5: score_24h = 4   # Flat
+            elif price_24h < 20: score_24h = 7  # Good start
+            elif price_24h < 100: score_24h = 10 # Sweet spot!
+            elif price_24h < 300: score_24h = 6  # Already pumped
+            else: score_24h = 2  # Massive pump = likely dumping soon
             
             # Higher lows pattern (simplified check)
             higher_lows = price_1h > -5 and price_6h > price_24h * 0.3
@@ -468,9 +594,29 @@ class MemeCoinBot:
             price_score = self.calculate_price_score(coin_data)
             holder_score = self.calculate_holder_score(coin_data)
             safety_score = self.calculate_safety_score(coin_data)
-            
-            # Stage 3: Final ranking
-            final_score = (volume_score + price_score + holder_score + safety_score) / 4
+
+            # Stage 3: Calculate AGE BONUS for ultra-early detection
+            created_at = coin_data.get('pairCreatedAt', 0)
+            if created_at:
+                token_age_hours = (time.time() - (created_at / 1000)) / 3600
+            else:
+                token_age_hours = 48
+
+            # MASSIVE bonus for catching coins in first 24 hours
+            if token_age_hours < 6:
+                age_bonus = 2.0      # +2 points for <6h old
+            elif token_age_hours < 12:
+                age_bonus = 1.5      # +1.5 points for <12h old
+            elif token_age_hours < 24:
+                age_bonus = 1.0      # +1 point for <24h old
+            elif token_age_hours < 48:
+                age_bonus = 0.5      # +0.5 points for <48h old
+            else:
+                age_bonus = 0        # No bonus for older coins
+
+            # Stage 3: Final ranking with age bonus
+            base_score = (volume_score + price_score + holder_score + safety_score) / 4
+            final_score = min(10, base_score + age_bonus)  # Cap at 10
             
             # Determine next check interval
             if final_score < 3.0: next_check = 240  # 4 hours
@@ -517,12 +663,12 @@ class MemeCoinBot:
                 'next_check_minutes': 240
             }
 
-    def get_top_coins(self, limit: int = 7) -> List[Dict]:
+    def get_top_coins(self, limit: int = 15) -> List[Dict]:
         """Main function to get top meme coin recommendations"""
         logger.info("Starting meme coin analysis...")
         
-        # Fetch trending tokens
-        raw_tokens = self.fetch_trending_tokens(100)  # Increased limit
+        # Fetch trending tokens - MASSIVELY EXPANDED
+        raw_tokens = self.fetch_trending_tokens(600)  # Increased from 100 to 600!
         if not raw_tokens:
             logger.warning("No tokens fetched, checking API status...")
             # Try a direct API test
